@@ -289,39 +289,60 @@
     .hero-content { position: relative; z-index: 2; max-width: 800px; }
     .hero-eyebrow {
       display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;
-      opacity: 0; animation: fadeUp 0.8s 0.2s cubic-bezier(0.25,0.46,0.45,0.94) forwards;
+      opacity: 1;
+    }
+    .hero-anim .hero-eyebrow {
+      opacity: 0; animation: fadeUp .8s .2s cubic-bezier(.25,.46,.45,.94) forwards;
     }
     .hero-eyebrow-dot { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; }
     .hero-h1 {
-      opacity: 0; animation: fadeUp 0.9s 0.4s cubic-bezier(0.25,0.46,0.45,0.94) forwards;
+      opacity: 1;
       margin-bottom: 1.5rem;
+    }
+    .hero-anim .hero-h1 {
+      opacity: 0; animation: fadeUp .9s .4s cubic-bezier(.25,.46,.45,.94) forwards;
     }
     .hero-h1 em { font-style: italic; color: var(--gold); }
     .hero-sub {
-      max-width: 520px; color: rgba(255,255,255,0.8); margin-bottom: 2.5rem;
-      opacity: 0; animation: fadeUp 0.9s 0.6s cubic-bezier(0.25,0.46,0.45,0.94) forwards;
+      max-width: 520px; color: rgba(255,255,255,.8); margin-bottom: 2.5rem;
+      opacity: 1;
       font-size: 1.1rem; line-height: 1.85;
+    }
+    .hero-anim .hero-sub {
+      opacity: 0; animation: fadeUp .9s .6s cubic-bezier(.25,.46,.45,.94) forwards;
     }
     .hero-ctas {
       display: flex; gap: 1rem; flex-wrap: wrap;
-      opacity: 0; animation: fadeUp 0.9s 0.8s cubic-bezier(0.25,0.46,0.45,0.94) forwards;
+      opacity: 1;
+    }
+    .hero-anim .hero-ctas {
+      opacity: 0; animation: fadeUp .9s .8s cubic-bezier(.25,.46,.45,.94) forwards;
     }
     
     .hero-divider {
-      width: 0; height: 1px; background: linear-gradient(90deg, var(--gold), transparent);
+      width: 110px; height: 1px; background: linear-gradient(90deg, var(--gold), transparent);
       margin-bottom: 1.75rem;
-      opacity: 0; animation: expandLine .9s .7s cubic-bezier(.16,1,.3,1) forwards;
+      opacity: 1;
+    }
+    .hero-anim .hero-divider {
+      width: 0; opacity: 0; animation: expandLine .9s .7s cubic-bezier(.16,1,.3,1) forwards;
     }
     @keyframes expandLine { to { width: 120px; opacity: 1; } }
 
     .hero-cta-note {
-      font-size: 0.75rem; color: rgba(255,255,255,0.4); margin-top: 1rem;
-      opacity: 0; animation: fadeUp 0.9s 1.0s cubic-bezier(0.25,0.46,0.45,0.94) forwards;
+      font-size: .75rem; color: rgba(255,255,255,.4); margin-top: 1rem;
+      opacity: 1;
+    }
+    .hero-anim .hero-cta-note {
+      opacity: 0; animation: fadeUp .9s 1.0s cubic-bezier(.25,.46,.45,.94) forwards;
     }
     .hero-stats {
       position: absolute; right: 2rem; bottom: 6rem;
       display: flex; flex-direction: column; gap: 2rem; z-index: 2;
-      opacity: 0; animation: fadeLeft 0.9s 1.0s cubic-bezier(0.25,0.46,0.45,0.94) forwards;
+      opacity: 1;
+    }
+    .hero-anim .hero-stats {
+      opacity: 0; animation: fadeLeft .9s 1.0s cubic-bezier(.25,.46,.45,.94) forwards;
     }
     .stat-item { text-align: right; border-right: 1px solid var(--gold); padding-right: 1.5rem; }
     .stat-number { font-family: var(--font-display); font-size: 2.4rem; font-weight: 300; line-height: 1; margin-bottom: 0.25rem; }
@@ -717,11 +738,9 @@
       .whatsapp-btn-float { width: 50px; height: 50px; }
       .brand-bar-inner { flex-direction: column; align-items: flex-start; }
     }
-    /* Emergency fallback - if JS reveal fails */
-    @media (prefers-reduced-motion: no-preference) {
-      .reveal { animation: revealFallback 0s 1.5s forwards; }
-    }
+    /* Fallback reveal - ensures elements appear even if JS/IO fails */
     @keyframes revealFallback { to { opacity: 1; transform: translateY(0); } }
+    .reveal { animation: revealFallback 0s 0.8s forwards; }
 
   </style>
 </head>
@@ -1748,6 +1767,29 @@
   <!-- ═══════════ JAVASCRIPT ═══════════ -->
   <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     'use strict';
+
+    // ── Hero animations — visibility guard para mobile
+    // No mobile, aba pode carregar em background. Só ativa animações quando visível.
+    (function initHeroAnim() {
+      function activateHero() {
+        const hero = document.getElementById('hero');
+        if (hero) hero.classList.add('hero-anim');
+      }
+      if (document.visibilityState === 'visible') {
+        activateHero();
+      } else {
+        var activated = false;
+        function onVisible() {
+          if (!activated && document.visibilityState === 'visible') {
+            activated = true;
+            activateHero();
+            document.removeEventListener('visibilitychange', onVisible);
+          }
+        }
+        document.addEventListener('visibilitychange', onVisible);
+        setTimeout(function() { if (!activated) { activated = true; activateHero(); } }, 2500);
+      }
+    })();
 
     // ── Header scroll
     const header = document.getElementById('header');
