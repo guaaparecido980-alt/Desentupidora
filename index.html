@@ -105,24 +105,26 @@
        VARIÁVEIS & RESET
     ═══════════════════════════════════════ */
     :root {
-      --gold: #C8A96E;
-      --gold-light: #E8D5A3;
-      --gold-dark: #9A7940;
-      --black: #0A0A0A;
-      --dark: #111111;
-      --dark-2: #1A1A1A;
-      --dark-3: #222222;
-      --grey: #888888;
-      --light-grey: #CCCCCC;
+      --gold:         #C6A56B;
+      --gold-light:   #E7D7B2;
+      --gold-dark:    #94713E;
+      --black:        #0A0A0A;
+      --dark:         #121212;
+      --dark-2:       #181818;
+      --dark-3:       #1E1E1E;
+      --grey: #7A7A7A;
+      --light-grey: #C4C4C4;
       --white: #FFFFFF;
-      --cream: #FAF7F2;
-      --accent: #1C4E80;
-      --accent-light: #2563A8;
-      --accent-dark: #153D66;
+      --cream:        #F7F3EE;
+      --accent:       #1F3B4D;
+      --accent-light: #2E566D;
+      --accent-dark:  #163144;
 
       --font-display: 'Cormorant Garamond', Georgia, serif;
       --font-body: 'DM Sans', sans-serif;
-      --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      --ease-out: cubic-bezier(.16,1,.3,1);
+      --ease-inout: cubic-bezier(.76,0,.24,1);
+      --transition: all .45s var(--ease-out);
       --shadow-gold: 0 4px 30px rgba(200,169,110,0.2);
     }
 
@@ -139,6 +141,7 @@
     img { max-width: 100%; height: auto; display: block; }
     a { text-decoration: none; color: inherit; }
     ul { list-style: none; }
+    :focus-visible { outline: 1.5px solid var(--gold); outline-offset: 3px; }
 
     /* Focus visível para acessibilidade */
     :focus-visible {
@@ -180,8 +183,8 @@
       text-transform: uppercase; border: none; cursor: pointer;
       transition: var(--transition); white-space: nowrap; text-decoration: none;
     }
-    .btn-gold { background: var(--gold); color: var(--black); }
-    .btn-gold:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: var(--shadow-gold); }
+    .btn-gold { background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold) 60%, var(--gold-light) 100%); background-size: 200% 100%; background-position: 100% 0; color: var(--black); box-shadow: 0 2px 24px var(--gold-glow); }
+    .btn-gold:hover { background-position: 0 0; transform: translateY(-2px); box-shadow: 0 6px 40px rgba(198,165,107,.22); }
     .btn-outline { background: transparent; color: var(--gold); border: 1px solid var(--gold); }
     .btn-outline:hover { background: var(--gold); color: var(--black); transform: translateY(-2px); }
     .btn-white { background: var(--white); color: var(--black); }
@@ -212,7 +215,7 @@
     }
     .nav-inner { display: flex; align-items: center; justify-content: space-between; }
     .logo { display: flex; flex-direction: column; line-height: 1.1; }
-    .logo-main { font-family: var(--font-display); font-size: 1.5rem; font-weight: 400; letter-spacing: 0.05em; }
+    .logo-main { font-family: var(--font-display); font-size: 1.55rem; font-weight: 400; letter-spacing: 0.06em; background: linear-gradient(90deg, var(--white), var(--gold-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     .logo-sub { font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); font-weight: 500; }
     .nav-links { display: flex; align-items: center; gap: 2.5rem; }
     .nav-links a {
@@ -273,8 +276,9 @@
       position: absolute; inset: 0;
       background:
         radial-gradient(ellipse at 60% 40%, rgba(200,169,110,0.06) 0%, transparent 55%),
-        linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.3) 40%, rgba(0,0,0,0.85) 100%),
-        url('https://images.unsplash.com/photo-1606811841689-23dfddce3e95?w=1800&auto=format&fit=crop&q=80') center/cover no-repeat;
+        linear-gradient(170deg, rgba(10,10,10,.06) 0%, rgba(10,10,10,.46) 45%, rgba(10,10,10,.94) 100%),
+        url('https://images.unsplash.com/photo-1606811841689-23dfddce3e95?w=1900&auto=format&fit=crop&q=85') center 35%/cover no-repeat;
+      animation: heroZoom 20s ease-in-out infinite alternate;
     }
     .hero-content { position: relative; z-index: 2; max-width: 800px; }
     .hero-eyebrow {
@@ -296,6 +300,14 @@
       display: flex; gap: 1rem; flex-wrap: wrap;
       opacity: 0; animation: fadeUp 0.9s 0.8s cubic-bezier(0.25,0.46,0.45,0.94) forwards;
     }
+    
+    .hero-divider {
+      width: 0; height: 1px; background: linear-gradient(90deg, var(--gold), transparent);
+      margin-bottom: 1.75rem;
+      opacity: 0; animation: expandLine .9s .7s var(--ease-out) forwards;
+    }
+    @keyframes expandLine { to { width: 120px; opacity: 1; } }
+
     .hero-cta-note {
       font-size: 0.75rem; color: rgba(255,255,255,0.4); margin-top: 1rem;
       opacity: 0; animation: fadeUp 0.9s 1.0s cubic-bezier(0.25,0.46,0.45,0.94) forwards;
@@ -369,12 +381,26 @@
     }
     .service-card-cta svg { width: 14px; height: 14px; }
     .service-card:hover .service-card-cta { opacity: 1; }
+    .service-card-num {
+      position: absolute; top: 1.5rem; right: 1.5rem;
+      font-family: var(--font-display); font-size: .85rem; color: rgba(198,165,107,.5);
+      letter-spacing: .08em; z-index: 3;
+      opacity: 0; transition: opacity .35s;
+    }
+    .service-card:hover .service-card-num { opacity: 1; }
     .service-card-arrow {
       position: absolute; top: 1.5rem; right: 1.5rem; width: 40px; height: 40px;
       background: var(--gold); display: flex; align-items: center; justify-content: center;
       opacity: 0; transform: scale(0.8); transition: var(--transition);
     }
-    .service-card:hover .service-card-arrow { opacity: 1; transform: scale(1); }
+    .service-card:hover .service-card-num {
+      position: absolute; top: 1.5rem; right: 1.5rem;
+      font-family: var(--font-display); font-size: .85rem; color: rgba(198,165,107,.5);
+      letter-spacing: .08em; z-index: 3;
+      opacity: 0; transition: opacity .35s;
+    }
+    .service-card:hover .service-card-num { opacity: 1; }
+    .service-card-arrow { opacity: 1; transform: scale(1); }
     .service-card-arrow svg { width: 16px; height: 16px; color: var(--black); }
     .services-grid-main { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5px; }
     .services-grid-bottom { display: grid; grid-template-columns: repeat(2,1fr); gap: 1.5px; margin-top: 1.5px; }
@@ -422,14 +448,32 @@
     .stars { display: flex; gap: 3px; }
     .star { color: var(--gold); font-size: 1rem; }
     .testimonials-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-    .testimonial-card { background: var(--dark-2); padding: 2rem; border-top: 1px solid rgba(200,169,110,0.15); transition: var(--transition); }
+    .testimonial-card {
+      background: var(--dark-2); padding: 2.25rem;
+      border-top: 1px solid rgba(198,165,107,.12);
+      transition: var(--transition); position: relative; overflow: hidden;
+    }
+    .testimonial-card::after {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+      transform: scaleX(0); transform-origin: left;
+      transition: transform .5s cubic-bezier(.16,1,.3,1);
+    }
+    .testimonial-card:hover::after { transform: scaleX(1); }
+    .testimonial-card.featured::after { transform: scaleX(1); background: linear-gradient(90deg, var(--gold), rgba(198,165,107,.3) 60%, transparent); }
     .testimonial-card:hover { background: var(--dark-3); border-top-color: var(--gold); }
     .testimonial-card.featured { grid-column: span 2; background: var(--dark-3); border-top: 2px solid var(--gold); }
     .quote-mark { font-family: var(--font-display); font-size: 4rem; color: var(--gold); opacity: 0.25; line-height: 0.8; margin-bottom: 1rem; display: block; }
     .testimonial-text { font-size: 0.9375rem; line-height: 1.85; color: rgba(255,255,255,0.75); margin-bottom: 1.5rem; }
     .testimonial-card.featured .testimonial-text { font-size: 1.0625rem; color: rgba(255,255,255,0.82); }
     .testimonial-author { display: flex; align-items: center; gap: 1rem; }
-    .author-avatar { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(200,169,110,0.3); background: var(--dark-3); }
+    .author-avatar {
+      width: 42px; height: 42px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display); font-size: .95rem; font-weight: 400; color: var(--black);
+      letter-spacing: .04em; flex-shrink: 0;
+    }
     .author-name { font-weight: 500; font-size: 0.875rem; margin-bottom: 2px; }
     .author-detail { font-size: 0.72rem; color: var(--gold); letter-spacing: 0.05em; }
     .testimonial-stars { display: flex; gap: 2px; margin-left: auto; }
@@ -476,8 +520,9 @@
     .blog-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 2rem; margin-top: 3.5rem; }
     .blog-card { cursor: pointer; transition: var(--transition); text-decoration: none; display: block; }
     .blog-card:hover { transform: translateY(-4px); }
-    .blog-img { width: 100%; aspect-ratio: 16/10; object-fit: cover; filter: brightness(0.8); margin-bottom: 1.25rem; transition: filter 0.4s; }
-    .blog-card:hover .blog-img { filter: brightness(0.9); }
+    .blog-img-wrap { overflow: hidden; margin-bottom: 1.4rem; }
+    .blog-img { width: 100%; aspect-ratio: 16/10; object-fit: cover; filter: brightness(.78) saturate(.9); margin-bottom: 0; transition: transform .7s cubic-bezier(.16,1,.3,1), filter .5s; }
+    .blog-card:hover .blog-img { transform: scale(1.04); filter: brightness(.88) saturate(1); }
     .blog-card.featured .blog-img { aspect-ratio: 16/11; }
     .blog-cat { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.5rem; }
     .blog-title { font-family: var(--font-display); font-size: 1.25rem; font-weight: 300; color: var(--white); margin-bottom: 0.6rem; line-height: 1.3; }
@@ -534,7 +579,7 @@
     .cta-strip-note { font-size: 0.78rem; color: rgba(0,0,0,0.38); margin-top: 1.25rem; }
 
     /* ═══ FOOTER ═══ */
-    #footer { background: #060606; padding: 4rem 0 2rem; }
+    #footer { background: #080808; padding: 4rem 0 2rem; }
     .footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; padding-bottom: 3rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
     .footer-about p { font-size: 0.875rem; color: var(--grey); line-height: 1.8; margin: 1.25rem 0; max-width: 280px; }
     .footer-socials { display: flex; gap: 0.6rem; }
@@ -551,6 +596,16 @@
     .footer-legal a { font-size: 0.78rem; color: rgba(255,255,255,0.18); transition: color 0.3s; }
     .footer-legal a:hover { color: var(--grey); }
     .footer-cro { font-size: 0.72rem; color: rgba(255,255,255,0.12); margin-top: 0.25rem; }
+
+
+    /* Assinatura portfólio */
+    .footer-portfolio-badge {
+      display: inline-flex; align-items: center; gap: .55rem;
+      padding: .45rem .9rem; border: 1px solid rgba(198,165,107,.15);
+      background: rgba(198,165,107,.04); margin-top: 1.5rem;
+    }
+    .footer-portfolio-badge span { font-size: .64rem; letter-spacing: .14em; text-transform: uppercase; color: rgba(198,165,107,.5); }
+    .footer-portfolio-badge svg { width: 12px; height: 12px; color: rgba(198,165,107,.38); flex-shrink: 0; }
 
     /* ═══ WHATSAPP FLUTUANTE ═══ */
     #whatsapp-float { position: fixed; bottom: 2rem; right: 2rem; z-index: 900; display: flex; flex-direction: column; align-items: flex-end; gap: 0.6rem; }
@@ -570,6 +625,7 @@
     .whatsapp-pulse { position: absolute; inset: 0; border-radius: 50%; background: var(--accent); opacity: 0; animation: pulse-ring 2.5s infinite; }
 
     /* ═══ ANIMAÇÕES ═══ */
+    @keyframes heroZoom { from { transform:scale(1); } to { transform:scale(1.04); } }
     @keyframes fadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes fadeLeft { from { opacity: 0; transform: translateX(28px); } to { opacity: 1; transform: translateX(0); } }
     @keyframes bounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(8px); } }
@@ -720,6 +776,8 @@
           merece cuidado<br>
           <em>de verdade.</em>
         </h1>
+
+        <div class="hero-divider" aria-hidden="true"></div>
 
         <p class="hero-sub">
           Diagnóstico preciso, estética personalizada e tecnologia digital para quem valoriza resultado natural. Atendimento privado no Batel, Curitiba.
@@ -891,6 +949,7 @@
 
         <!-- Lentes de Contato Dental -->
         <article class="service-card" tabindex="0" aria-label="Lentes de Contato Dental">
+          <span class="service-card-num" aria-hidden="true">01</span>
           <img src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=700&auto=format&fit=crop&q=80" alt="Paciente com sorriso transformado por lentes de contato dental em Curitiba" class="service-card-img" loading="lazy" width="448" height="336" />
           <div class="service-card-arrow" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"/></svg>
@@ -909,6 +968,7 @@
 
         <!-- Implantes -->
         <article class="service-card" tabindex="0" aria-label="Implantes Dentários">
+          <span class="service-card-num" aria-hidden="true">02</span>
           <img src="https://images.unsplash.com/photo-1609840112990-4265448268d1?w=700&auto=format&fit=crop&q=80" alt="Implante dentário em Curitiba - Sorriso Prime" class="service-card-img" loading="lazy" width="448" height="336" />
           <div class="service-card-arrow" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"/></svg>
@@ -927,6 +987,7 @@
 
         <!-- Clareamento -->
         <article class="service-card" tabindex="0" aria-label="Clareamento Dental">
+          <span class="service-card-num" aria-hidden="true">03</span>
           <img src="https://images.unsplash.com/photo-1629909615184-74f495363b67?w=700&auto=format&fit=crop&q=80" alt="Clareamento dental profissional em Curitiba" class="service-card-img" loading="lazy" width="448" height="336" />
           <div class="service-card-arrow" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"/></svg>
@@ -949,6 +1010,7 @@
 
         <!-- Ortodontia -->
         <article class="service-card" tabindex="0" aria-label="Ortodontia e Alinhadores">
+          <span class="service-card-num" aria-hidden="true">04</span>
           <img src="https://images.unsplash.com/photo-1598257006458-087169a1f08d?w=700&auto=format&fit=crop&q=80" alt="Ortodontia com alinhadores transparentes em Curitiba" class="service-card-img" loading="lazy" width="648" height="486" />
           <div class="service-card-arrow" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"/></svg>
@@ -967,6 +1029,7 @@
 
         <!-- Harmonização -->
         <article class="service-card" tabindex="0" aria-label="Harmonização Facial">
+          <span class="service-card-num" aria-hidden="true">05</span>
           <img src="https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=700&auto=format&fit=crop&q=80" alt="Harmonização facial em Curitiba - Sorriso Prime" class="service-card-img" loading="lazy" width="648" height="486" />
           <div class="service-card-arrow" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25"/></svg>
@@ -1163,7 +1226,7 @@
             <span class="quote-mark" aria-hidden="true">"</span>
             <p class="testimonial-text">Fiz minhas lentes de porcelana aqui e foi a melhor decisão que tomei. O que mais me surpreendeu foi o processo: antes de qualquer coisa, me mostraram exatamente como ficaria o resultado. Só confirmei porque vi. O sorriso ficou natural, proporcional — ninguém chuta que são lentes, só dizem que estou diferente.</p>
             <div class="testimonial-author">
-              <div class="author-avatar" style="display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:500;color:var(--gold);background:var(--dark-3);">MS</div>
+              <div class="author-avatar" aria-hidden="true">MS</div>
               <div>
                 <div class="author-name">Mariana S.</div>
                 <div class="author-detail">Lentes de Porcelana · Batel</div>
@@ -1178,7 +1241,7 @@
             <span class="quote-mark" aria-hidden="true">"</span>
             <p class="testimonial-text">Tinha medo de fazer implante há anos. Na primeira consulta o dentista foi direto: explicou o procedimento, o tempo, o custo real e o pós-operatório sem enrolação. Isso me deu confiança para seguir. O implante ficou perfeito.</p>
             <div class="testimonial-author">
-              <div class="author-avatar" style="display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:500;color:var(--gold);background:var(--dark-3);">RA</div>
+              <div class="author-avatar" aria-hidden="true">RA</div>
               <div>
                 <div class="author-name">Roberto A.</div>
                 <div class="author-detail">Implante Dentário</div>
@@ -1190,7 +1253,7 @@
             <span class="quote-mark" aria-hidden="true">"</span>
             <p class="testimonial-text">Fiz harmonização facial e clareamento no mesmo período. O que me impressionou foi a contenção — não exageraram em nada. O resultado foi exatamente o que pedi: sutil, mas com diferença real.</p>
             <div class="testimonial-author">
-              <div class="author-avatar" style="display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:500;color:var(--gold);background:var(--dark-3);">LM</div>
+              <div class="author-avatar" aria-hidden="true">LM</div>
               <div>
                 <div class="author-name">Larissa M.</div>
                 <div class="author-detail">Harmonização + Clareamento</div>
@@ -1202,7 +1265,7 @@
             <span class="quote-mark" aria-hidden="true">"</span>
             <p class="testimonial-text">Usei alinhador por 16 meses e fiquei surpreso com a evolução. Em reuniões de trabalho, ninguém percebia que estava usando aparelho. E o acompanhamento foi constante do começo ao fim.</p>
             <div class="testimonial-author">
-              <div class="author-avatar" style="display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:500;color:var(--gold);background:var(--dark-3);">FC</div>
+              <div class="author-avatar" aria-hidden="true">FC</div>
               <div>
                 <div class="author-name">Felipe C.</div>
                 <div class="author-detail">Alinhadores Transparentes</div>
@@ -1368,7 +1431,9 @@
 
       <div class="blog-grid reveal">
         <a href="#" class="blog-card featured" aria-label="Ler artigo: Lentes de contato dental em Curitiba - guia completo">
-          <img src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=800&auto=format&fit=crop&q=70" alt="Sorriso transformado com lentes de contato dental em Curitiba" class="blog-img" loading="lazy" width="764" height="440" />
+          <div class="blog-img-wrap">
+            <img src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=800&auto=format&fit=crop&q=70" alt="Sorriso transformado com lentes de contato dental em Curitiba" class="blog-img" loading="lazy" width="764" height="440" />
+          </div>
           <div class="blog-cat">Lentes de Contato Dental</div>
           <h3 class="blog-title">Lentes de contato dental em Curitiba: o que você precisa saber antes de decidir</h3>
           <p class="blog-excerpt">Indicação, tipos de faceta, desgaste dentário, durabilidade, custo médio e como escolher uma clínica com critério técnico.</p>
@@ -1382,7 +1447,9 @@
         </a>
 
         <a href="#" class="blog-card" aria-label="Ler artigo sobre implante dentário em Curitiba">
-          <img src="https://images.unsplash.com/photo-1609840112990-4265448268d1?w=500&auto=format&fit=crop&q=70" alt="Implante dentário em Curitiba - Sorriso Prime" class="blog-img" loading="lazy" width="318" height="199" />
+          <div class="blog-img-wrap">
+            <img src="https://images.unsplash.com/photo-1609840112990-4265448268d1?w=500&auto=format&fit=crop&q=70" alt="Implante dentário em Curitiba - Sorriso Prime" class="blog-img" loading="lazy" width="318" height="199" />
+          </div>
           <div class="blog-cat">Implante Dentário</div>
           <h3 class="blog-title">Implante dentário em Curitiba: quanto custa, quanto dura e quando vale a pena</h3>
           <div class="blog-meta">
@@ -1395,7 +1462,9 @@
         </a>
 
         <a href="#" class="blog-card" aria-label="Ler artigo sobre clareamento dental caseiro vs profissional">
-          <img src="https://images.unsplash.com/photo-1629909615184-74f495363b67?w=500&auto=format&fit=crop&q=70" alt="Clareamento dental profissional em Curitiba" class="blog-img" loading="lazy" width="318" height="199" />
+          <div class="blog-img-wrap">
+            <img src="https://images.unsplash.com/photo-1629909615184-74f495363b67?w=500&auto=format&fit=crop&q=70" alt="Clareamento dental profissional em Curitiba" class="blog-img" loading="lazy" width="318" height="199" />
+          </div>
           <div class="blog-cat">Clareamento</div>
           <h3 class="blog-title">Clareamento caseiro vs. profissional: qual funciona de verdade e qual tem risco?</h3>
           <div class="blog-meta">
@@ -1457,7 +1526,7 @@
               </div>
               <div class="contact-item-text">
                 <div class="contact-item-label">E-mail</div>
-                <div class="contact-item-value"><a href="mailto:contato@SEU-DOMINIO.com.br" style="color:var(--light-grey);">contato@SEU-DOMINIO.com.br</a></div>
+                <div class="contact-item-value"><a href="/cdn-cgi/l/email-protection#5c3f3332283d28331c0f19097118131115121513723f3331723e2e" style="color:var(--light-grey);"><span class="__cf_email__" data-cfemail="14777b7a6075607b5447514139505b595d5a5d5b3a777b793a7666">[email&#160;protected]</span></a></div>
               </div>
             </div>
           </div>
@@ -1581,13 +1650,18 @@
             <span class="logo-main" style="font-size:1.4rem;">Sorriso Prime</span>
           </a>
           <p>Clínica odontológica privada no Batel, Curitiba. Especializada em estética dental, implantes e harmonização facial com tecnologia digital e diagnóstico criteriosos.</p>
-          <div class="footer-socials mt-4">
+          <div class="footer-socials mt-4" style="margin-top:1.25rem;">
             <a href="https://instagram.com/SEU-PERFIL" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Sorriso Prime no Instagram">
               <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
             </a>
             <a href="https://facebook.com/SEU-PERFIL" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Sorriso Prime no Facebook">
               <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
             </a>
+          </div>
+          <!-- Badge portfólio -->
+          <div class="footer-portfolio-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 00-1.883 2.542l.857 6a2.25 2.25 0 002.227 1.932H19.05a2.25 2.25 0 002.227-1.932l.857-6a2.25 2.25 0 00-1.883-2.542m-16.5 0V6A2.25 2.25 0 016 3.75h3.879a1.5 1.5 0 011.06.44l2.122 2.12a1.5 1.5 0 001.06.44H18A2.25 2.25 0 0120.25 9v.776"/></svg>
+            <span>Projeto conceitual para portfólio</span>
           </div>
         </div>
 
@@ -1617,7 +1691,7 @@
           <h4>Contato direto</h4>
           <ul class="footer-links" role="list">
             <li><a href="tel:+554100000000">(41) 0000-0000</a></li>
-            <li><a href="mailto:contato@SEU-DOMINIO.com.br">contato@SEU-DOMINIO.com.br</a></li>
+            <li><a href="/cdn-cgi/l/email-protection#4e2d21203a2f3a210e1d0b1b630a010307000701602d2123602c3c"><span class="__cf_email__" data-cfemail="9bf8f4f5effaeff4dbc8deceb6dfd4d6d2d5d2d4b5f8f4f6b5f9e9">[email&#160;protected]</span></a></li>
             <li><a href="https://wa.me/554100000000" target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
             <li><a href="#contact">Batel, Curitiba — PR</a></li>
           </ul>
@@ -1627,7 +1701,7 @@
       <div class="footer-bottom">
         <div>
           <p>© 2025 Sorriso Prime Odontologia. Todos os direitos reservados.</p>
-          <p class="footer-cro">CRO-PR nº XXXXX · CFO nº XXXXX</p>
+          <p class="footer-cro">Projeto conceitual desenvolvido para portfólio · Design & Front-end Premium</p>
         </div>
         <div class="footer-legal">
           <a href="#">Política de Privacidade</a>
@@ -1653,7 +1727,7 @@
   </div>
 
   <!-- ═══════════ JAVASCRIPT ═══════════ -->
-  <script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     'use strict';
 
     // ── Header scroll
@@ -1757,14 +1831,4 @@
 
         // Redireciona para WhatsApp com os dados do formulário
         const service = form.querySelector('#field-service').value;
-        const msg = encodeURIComponent(`Olá! Me chamo ${name}. Vim pelo site e tenho interesse em: ${service || 'avaliação geral'}. Meu telefone: ${phone}`);
-        setTimeout(() => {
-          window.open(`https://wa.me/554100000000?text=${msg}`, '_blank');
-          document.getElementById('form-success').style.display = 'block';
-          btn.textContent = '✓ Redirecionado para WhatsApp';
-        }, 600);
-      });
-    }
-  </script>
-</body>
-</html>
+        const msg = encodeURIComponent(`Olá! Me chamo $
