@@ -95,9 +95,12 @@
   </script>
 
   <!-- Preconnect para fontes -->
+  <!-- Preload hero image -->
+  <link rel="preload" as="image" href="https://images.unsplash.com/photo-1606811841689-23dfddce3e95?w=1900&auto=format&fit=crop&q=85" type="image/jpeg" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet" />
 
   <style>
     /* ═══════════════════════════════════════
@@ -187,7 +190,7 @@
     }
     .btn-gold { background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold) 60%, var(--gold-light) 100%); background-size: 200% 100%; background-position: 100% 0; color: var(--black); box-shadow: 0 2px 24px rgba(198,165,107,.18); }
     .btn-gold:hover { background-position: 0 0; transform: translateY(-2px); box-shadow: 0 6px 40px rgba(198,165,107,.22); }
-    .btn-outline { background: transparent; color: var(--gold); border: 1px solid var(--gold); }
+    .btn-outline { background: transparent; color: var(--gold); border: 1px solid rgba(198,165,107,.6); letter-spacing: .1em; }
     .btn-outline:hover { background: var(--gold); color: var(--black); transform: translateY(-2px); }
     .btn-white { background: var(--white); color: var(--black); }
     .btn-white:hover { background: var(--cream); transform: translateY(-2px); }
@@ -716,7 +719,7 @@
     }
     /* Emergency fallback - if JS reveal fails */
     @media (prefers-reduced-motion: no-preference) {
-      .reveal { animation: revealFallback 0s 2s forwards; }
+      .reveal { animation: revealFallback 0s 1.5s forwards; }
     }
     @keyframes revealFallback { to { opacity: 1; transform: translateY(0); } }
 
@@ -1801,13 +1804,6 @@
       revealEls.forEach(el => obs.observe(el));
     }
 
-    // Fallback para elementos já visíveis no load
-    setTimeout(() => {
-      revealEls.forEach(el => {
-        const r = el.getBoundingClientRect();
-        if (r.top < window.innerHeight && r.bottom > 0) el.classList.add('visible');
-      });
-    }, 80);
 
     // ── FAQ accordion com aria
     document.querySelectorAll('.faq-question').forEach(btn => {
