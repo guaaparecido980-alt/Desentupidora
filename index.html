@@ -5,30 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <meta name="theme-color" content="#0A2540" />
 <meta name="robots" content="index,follow,max-image-preview:large" />
+
+<!-- Verificação Google Search Console -->
+<meta name="google-site-verification" content="tl1auNZWzSvIk3EYc9Vnbf0focoHyNV_Ol1l8ov3DbE" />
 <meta name="author" content="Máxima Desentupidora Encanadores" />
 <meta name="geo.region" content="BR-PR" />
 <meta name="geo.placename" content="Curitiba" />
 <meta name="geo.position" content="-25.4284;-49.2733" />
 <meta name="ICBM" content="-25.4284, -49.2733" />
 
-<!-- Redirect automático HTTP -> HTTPS: só ativa SE o HTTPS estiver funcionando.
-     Testa primeiro se o certificado SSL está emitido antes de redirecionar.
-     Enquanto HTTPS não está ativo, o site continua funcionando em HTTP sem quebrar imagens. -->
-<script>
-(function() {
-  if (location.protocol === 'http:' && location.hostname.indexOf('localhost') === -1 && location.hostname.indexOf('127.') === -1) {
-    var testImg = new Image();
-    testImg.onload = function() {
-      // HTTPS funciona - redireciona
-      location.replace('https://' + location.hostname + location.pathname + location.search + location.hash);
-    };
-    testImg.onerror = function() {
-      // HTTPS ainda não está disponível - continua em HTTP, não faz nada
-    };
-    testImg.src = 'https://' + location.hostname + '/favicon-16.png?_https_test=' + Date.now();
-  }
-})();
-</script>
+<!-- Redirect HTTPS será adicionado quando o certificado SSL estiver emitido -->
 
 <!-- ============================================================
      SEO PRIMÁRIO - otimizado para "desentupidora curitiba 24h"
@@ -3363,9 +3349,19 @@ body.cookie-banner-active .fab--call { bottom: calc(var(--cookie-banner-h, 200px
           io.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    }, { threshold: 0.01, rootMargin: '0px 0px 150px 0px' });
 
     els.forEach(el => io.observe(el));
+
+    // SAFETY NET: depois de 2.5s, forçar visibilidade de qualquer elemento
+    // que ainda esteja sem .is-visible (caso IO falhe em algum cenário).
+    setTimeout(() => {
+      els.forEach(el => {
+        if (!el.classList.contains('is-visible')) {
+          el.classList.add('is-visible');
+        }
+      });
+    }, 2500);
   } else {
     // Fallback: navegadores antigos recebem tudo visível
     els.forEach(el => el.classList.add('is-visible'));
