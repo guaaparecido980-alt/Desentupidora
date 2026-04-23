@@ -26,18 +26,33 @@
 <meta property="og:title" content="Desentupidora 24h em Curitiba | Máxima Desentupidora" />
 <meta property="og:description" content="Desentupidora 24 horas em Curitiba e região. Desentupimento, encanador, hidrojateamento e caça-vazamento. Orçamento sem compromisso pelo WhatsApp." />
 <meta property="og:url" content="https://maximadesentupidoradias.com.br/" />
-<meta property="og:image" content="https://maximadesentupidoradias.com.br/og-image.jpg" />
+<meta property="og:image" content="https://maximadesentupidoradias.com.br/assets/og-image.jpg" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Máxima Desentupidora Encanadores - Atendimento 24h em Curitiba" />
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Desentupidora 24h em Curitiba | Máxima Desentupidora" />
 <meta name="twitter:description" content="Desentupidora 24 horas em Curitiba e região. Desentupimento, encanador e hidrojateamento. Orçamento pelo WhatsApp." />
-<meta name="twitter:image" content="https://maximadesentupidoradias.com.br/og-image.jpg" />
+<meta name="twitter:image" content="https://maximadesentupidoradias.com.br/assets/og-image.jpg" />
 
-<!-- Favicons - PLACEHOLDER: substituir por favicons reais gerados a partir do logo -->
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230A2540'/%3E%3Ctext x='50' y='68' font-family='Arial Black' font-size='60' font-weight='900' text-anchor='middle' fill='%23FFD400'%3EM%3C/text%3E%3C/svg%3E" />
+<!-- ============================================================
+     FAVICONS E ÍCONES
+     Estratégia: tamanhos pequenos (16/32) usam versão simplificada
+     (M amarelo sobre fundo azul) pra ficar legível na aba do navegador.
+     Tamanhos grandes (≥64) usam o logo completo da marca.
+     ============================================================ -->
+<link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png" />
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
+<link rel="icon" type="image/png" sizes="48x48" href="assets/favicon-48.png" />
+<link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-96.png" />
+<link rel="icon" type="image/png" sizes="192x192" href="assets/favicon-192.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
+<link rel="manifest" href="assets/site.webmanifest" />
+<meta name="msapplication-TileColor" content="#1E6FD9" />
+<meta name="msapplication-TileImage" content="assets/favicon-192.png" />
 
 <!-- Preconnect para performance -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -63,8 +78,8 @@
   "email": "geomercindo122@gmail.com",
   "taxID": "43.705.402/0001-02",
   "priceRange": "$$",
-  "image": "https://maximadesentupidoradias.com.br/og-image.jpg",
-  "logo": "https://maximadesentupidoradias.com.br/logo.png",
+  "image": "https://maximadesentupidoradias.com.br/assets/og-image.jpg",
+  "logo": "https://maximadesentupidoradias.com.br/assets/favicon-512.png",
   "address": {
     "@type": "PostalAddress",
     "addressLocality": "Curitiba",
@@ -460,7 +475,14 @@ p { margin: 0; }
   width: 42px;
   height: 42px;
   flex-shrink: 0;
-  filter: drop-shadow(0 4px 12px rgba(30, 111, 217, .3));
+  border-radius: 10px;
+  object-fit: contain;
+  box-shadow: 0 4px 12px rgba(30, 111, 217, .25), 0 1px 3px rgba(5, 11, 20, .2);
+  transition: transform .3s var(--ease), box-shadow .3s;
+}
+.brand:hover .brand__mark {
+  transform: scale(1.05);
+  box-shadow: 0 6px 18px rgba(30, 111, 217, .35), 0 2px 4px rgba(5, 11, 20, .25);
 }
 .brand__name {
   display: flex;
@@ -2355,18 +2377,9 @@ body.cookie-banner-active .fab--call { bottom: calc(var(--cookie-banner-h, 200px
 <header class="header" id="header">
   <div class="container header__inner">
     <a href="#" class="brand" aria-label="Máxima Desentupidora Encanadores - Início">
-      <!-- Logo em SVG inline: escalável, leve, com cara técnica.
-           PLACEHOLDER: substituir por logo oficial do cliente quando fornecido em SVG -->
-      <svg class="brand__mark" viewBox="0 0 48 48" aria-hidden="true">
-        <defs>
-          <linearGradient id="brandGrad" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#1E6FD9"/>
-            <stop offset="100%" stop-color="#0A2540"/>
-          </linearGradient>
-        </defs>
-        <rect x="2" y="2" width="44" height="44" rx="11" fill="url(#brandGrad)"/>
-        <path d="M13 33 L13 17 L18 17 L24 26 L30 17 L35 17 L35 33 L31 33 L31 23 L25 32 L23 32 L17 23 L17 33 Z" fill="#FFD400"/>
-      </svg>
+      <!-- Logo oficial da marca. Imagem raster otimizada (PNG 200x200 ~20KB).
+           O tamanho final é controlado pelo CSS via .brand__mark. -->
+      <img class="brand__mark" src="assets/logo-card-white.png" alt="Logo Máxima Desentupidora" width="48" height="48" loading="eager" decoding="sync" />
       <span class="brand__name">
         <strong>Máxima</strong>
         <em>Desentupidora &amp; Encanadores</em>
@@ -3069,10 +3082,7 @@ body.cookie-banner-active .fab--call { bottom: calc(var(--cookie-banner-h, 200px
   <div class="container footer__inner">
     <div class="footer__col footer__col--brand">
       <a href="#" class="brand brand--footer" aria-label="Máxima Desentupidora">
-        <svg class="brand__mark" viewBox="0 0 48 48" aria-hidden="true">
-          <rect x="2" y="2" width="44" height="44" rx="11" fill="#1E6FD9"/>
-          <path d="M13 33 L13 17 L18 17 L24 26 L30 17 L35 17 L35 33 L31 33 L31 23 L25 32 L23 32 L17 23 L17 33 Z" fill="#FFD400"/>
-        </svg>
+        <img class="brand__mark" src="assets/logo-card-white.png" alt="Logo Máxima Desentupidora" width="48" height="48" loading="lazy" decoding="async" />
         <span class="brand__name">
           <strong>Máxima</strong>
           <em>Desentupidora &amp; Encanadores</em>
