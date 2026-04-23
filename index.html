@@ -1875,10 +1875,12 @@ html.js-enabled .reveal.is-visible {
    ---------------------------------------------- */
 @media (max-width: 640px) {
   /* HEADER - compactação no mobile */
-  .brand__name em { display: none; }          /* nome compacto no mobile */
+  .brand__name strong { font-size: 1rem; }
+  .brand__name em { font-size: .65rem; opacity: .75; }  /* visível em mobile, compacto */
   .header__cta span { display: none; }         /* esconde texto "WhatsApp", só ícone */
   .header__cta { padding: .6rem .8rem; }
   .header__cta svg { width: 20px; height: 20px; }
+  .brand__mark { width: 38px; height: 38px; }
 
   /* TOP BAR - empilhar vertical */
   .top-bar__sep { display: none; }
