@@ -11,20 +11,21 @@
 <meta name="geo.position" content="-25.4284;-49.2733" />
 <meta name="ICBM" content="-25.4284, -49.2733" />
 
-<!-- Segurança: quando HTTPS estiver ativo, força upgrade automático de todos
-     os recursos HTTP pra HTTPS. Em páginas já HTTPS, previne mixed content. -->
-<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-
-<!-- Redirect automático HTTP -> HTTPS quando o certificado estiver emitido.
-     Testa se HTTPS funciona antes de redirecionar pra evitar loop. -->
+<!-- Redirect automático HTTP -> HTTPS: só ativa SE o HTTPS estiver funcionando.
+     Testa primeiro se o certificado SSL está emitido antes de redirecionar.
+     Enquanto HTTPS não está ativo, o site continua funcionando em HTTP sem quebrar imagens. -->
 <script>
 (function() {
   if (location.protocol === 'http:' && location.hostname.indexOf('localhost') === -1 && location.hostname.indexOf('127.') === -1) {
-    // Só redireciona se uma requisição teste de HTTPS funcionar
-    fetch('https://' + location.hostname + '/favicon.ico', { method: 'HEAD', mode: 'no-cors' })
-      .then(function() {
-        location.replace('https://' + location.hostname + location.pathname + location.search + location.hash);
-      }).catch(function() { /* HTTPS ainda não disponível, continua em HTTP */ });
+    var testImg = new Image();
+    testImg.onload = function() {
+      // HTTPS funciona - redireciona
+      location.replace('https://' + location.hostname + location.pathname + location.search + location.hash);
+    };
+    testImg.onerror = function() {
+      // HTTPS ainda não está disponível - continua em HTTP, não faz nada
+    };
+    testImg.src = 'https://' + location.hostname + '/favicon-16.png?_https_test=' + Date.now();
   }
 })();
 </script>
